@@ -23,11 +23,11 @@ public class Kata {
         months.put("09", "Sep");
         months.put("12", "Dec");
 
-        String arbitraryDigit = "9";
+        final String arbitraryDigit = "9";
 
-        String computerCheck = "AA";
+        final String computerCheck = "AA";
 
-        // LAST NAME (done)
+        // LAST NAME
         StringBuilder firstFiveCharsOfSurname = new StringBuilder(surname.stream()
                 .filter(name -> name.length() <= 5)
                 .map(name -> name.toUpperCase(Locale.ROOT))
@@ -38,19 +38,19 @@ public class Kata {
             firstFiveCharsOfSurname.append(padding);
         }
 
-        // DECADE DIGIT (done)
+        // DECADE DIGIT
         String decadeDigit = birthDate.stream()
                 .map(element -> element.charAt(element.length() -2))
                 .map(Objects::toString)
                 .collect(Collectors.joining());
 
-        // BIRTH MONTH (word)
+        // BIRTH MONTH
         String birthMonth = birthDate.stream()
                 .map(element -> element.substring(3, 6))
                 .map(Objects::toString)
                 .collect(Collectors.joining());
 
-        // MONTH OF BIRTH (digits). need to add 50 if female
+        // MONTH OF BIRTH
         String birthMonthDigits = months.entrySet()
                 .stream()
                 .filter(element -> element.getValue().equals(birthMonth))
@@ -58,34 +58,40 @@ public class Kata {
                 .map(Objects::toString)
                 .collect(Collectors.joining());
 
+        if (gender.contains("F")) {
+            if (birthMonthDigits.startsWith("1")) {
+                birthMonthDigits = birthMonthDigits.replaceFirst("1", "6");
+            } else {
+                birthMonthDigits = birthMonthDigits.replaceFirst("0", "5");
+            }
+        }
+
         //  DAY OF BIRTH
         String birthDay = birthDate.stream()
                 .map(element -> element.substring(0,2))
                 .map(Objects::toString)
                 .collect(Collectors.joining());
 
-        // YEAR DIGIT (done)
+        // YEAR DIGIT
         String yearDigit = birthDate.stream()
                 .map(element -> element.charAt(element.length() -1))
                 .map(Objects::toString)
                 .collect(Collectors.joining());
 
-        // FIRST INITIAL (done)
+        // FIRST INITIAL
         String firstInitial = firstName.stream()
                 .map(element -> element.substring(0,1))
                 .map(Objects::toString)
                 .collect(Collectors.joining());
 
-        // MIDDLE INITIAL (done)
-
-        if(middleName.length() < 1) {
+        // MIDDLE INITIAL
+        if (middleName.length() < 1) {
             middleName.insert(0, padding);
         }
 
         String middleInitial = middleName.substring(0,1);
 
         // RETURN STATEMENT
-
         return firstFiveCharsOfSurname + decadeDigit + birthMonthDigits + birthDay + yearDigit + firstInitial + middleInitial + arbitraryDigit + computerCheck;
     }
 }
