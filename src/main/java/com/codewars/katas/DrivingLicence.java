@@ -12,7 +12,7 @@ public class DrivingLicence {
 
         StringBuilder middleName = new StringBuilder(data[1]);
 
-        List<String> surname = Collections.singletonList(data[2]);
+        StringBuilder surname = new StringBuilder(data[2]);
 
         List<String> birthDate = Collections.singletonList(data[3]);
 
@@ -20,22 +20,27 @@ public class DrivingLicence {
 
         Map<String, String> months = new HashMap<>();
         months.put("01", "Jan");
+        months.put("02", "Feb");
+        months.put("03", "Mar");
+        months.put("04", "Apr");
+        months.put("05", "May");
+        months.put("06", "Jun");
+        months.put("07", "Jul");
+        months.put("08", "Aug");
         months.put("09", "Sep");
+        months.put("10", "Oct");
+        months.put("11", "Nov");
         months.put("12", "Dec");
 
         final String arbitraryDigit = "9";
 
         final String computerCheck = "AA";
 
-        StringBuilder firstFiveCharsOfSurname = new StringBuilder(surname.stream()
-                .filter(element -> element.length() <= 5)
-                .map(element -> element.toUpperCase(Locale.ROOT))
-                .map(Object::toString)
-                .collect(Collectors.joining()));
-
-        while (firstFiveCharsOfSurname.length() < 5) {
-            firstFiveCharsOfSurname.append(arbitraryDigit);
+        while (surname.length() < 5) {
+            surname.append(arbitraryDigit);
         }
+
+        String firstFiveCharsOfSurname = surname.substring(0, 5).toUpperCase(Locale.ROOT);
 
         String decadeDigit = birthDate.stream()
                 .map(element -> element.charAt(element.length() - 2))
